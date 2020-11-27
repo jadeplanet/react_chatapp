@@ -27,6 +27,12 @@ function RegisterPage() {
 				)}?d=identicon`,
 			});
 
+			// Firebase 데이터베이스에 저장하기
+			await firebase.database().ref('users').child(createdUser.user.uid).set({
+				name: createdUser.user.displayName,
+				image: createdUser.user.photoURL,
+			});
+
 			setLoading(false);
 		} catch (error) {
 			setErrorFromSubmit(error.message);
@@ -90,14 +96,15 @@ function RegisterPage() {
 					)}
 
 				{errorFromSubmit && <p>{errorFromSubmit}</p>}
+
 				<input type='submit' disabled={loading} value='회원가입하기' />
+				<Link
+					style={{ color: 'gray', textDecoration: 'none', textAlign: 'center' }}
+					to='login'
+				>
+					이미 아이디가 있다면...
+				</Link>
 			</form>
-			<Link
-				style={{ color: 'gray', textDecoration: 'none', textAlign: 'center' }}
-				to='login'
-			>
-				이미 아이디가 있다면...
-			</Link>
 		</div>
 	);
 }
