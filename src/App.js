@@ -5,7 +5,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import firebase from './firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from './redux/actions/user_action';
+import { setUser, clearUser } from './redux/actions/user_action';
 
 function App(props) {
 	let history = useHistory();
@@ -21,6 +21,7 @@ function App(props) {
 				dispatch(setUser(user));
 			} else {
 				history.push('/login');
+				dispatch(clearUser());
 			}
 		});
 	}, []);

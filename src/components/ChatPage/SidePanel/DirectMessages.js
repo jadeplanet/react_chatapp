@@ -1,7 +1,7 @@
 import React from 'react';
 
 const DirectMessages = () => {
-	return <div>DirecMessages</div>;
+	return <div>DirectMessages</div>;
 };
 
 export default DirectMessages;
