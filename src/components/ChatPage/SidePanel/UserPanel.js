@@ -2,13 +2,15 @@ import React, { useRef } from 'react';
 import { IoIosChatboxes } from 'react-icons/io';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Image from 'react-bootstrap/Image';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import firebase from '../../../firebase';
 import mime from 'mime-types';
+import { setPhotoURL } from '../../../redux/actions/user_action';
 
 function UserPanel() {
 	const user = useSelector((state) => state.user.currentUser);
 	const inputOpenImageRef = useRef();
+	const dispatch = useDispatch();
 	const handleLogout = () => {
 		firebase.auth().signOut();
 	};
@@ -26,7 +28,23 @@ function UserPanel() {
 				.child(`user_image/${user.uid}`)
 				.put(file.metadata);
 
-			console.log('uploadTaskSnapshot', uploadTaskSnapshot);
+			let downloadURL = await uploadTaskSnapshot.ref.getDownloadURL();
+
+			// 프로필 이미지 수정
+			await firebase.auth().currentUser.updateProfile({
+				photoURL: downloadURL,
+			});
+
+			dispatchEvent(setPhotoURL());
+
+			// 데이터베이스 유저 이미지 수정
+			await firebase
+				.database()
+				.ref('users')
+				.child(user.uid)
+				.update({ image: downloadURL });
+
+			// console.log('uploadTaskSnapshot', uploadTaskSnapshot);
 		} catch (error) {}
 	};
 	return (
