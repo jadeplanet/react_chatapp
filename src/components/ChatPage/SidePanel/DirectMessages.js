@@ -1,7 +1,32 @@
 import React, { Component } from 'react';
 import { FaRegSmile } from 'react-icons/fa';
+import firebase from '../../../firebase';
+import { connect } from 'react-redux';
 
 export class DirectMessages extends Component {
+	state = {
+		usersRef: firebase.database().ref('user'),
+	};
+	componentDidMount() {
+		if (this.props.user) {
+			this.addUsersListeners(this.props.user.uid);
+		}
+	}
+	addUSersListeners = (currentUserId) => {
+		const { usersRef } = this.state;
+		let usersArray = [];
+		usersRef.on('child_added', (DataSnapshot) => {
+			if (currentUserId !== DataSnapshot.key) {
+				let user = DataSnapshot.val();
+				user['uid'] = DataSnapshot.key;
+				user['status'] = 'offline';
+
+				usersArray.push();
+				this.setState({ users: usersArray });
+			}
+		});
+	};
+	renderDirectMessages = () => {};
 	render() {
 		return (
 			<div>
@@ -16,4 +41,10 @@ export class DirectMessages extends Component {
 	}
 }
 
-export default DirectMessages;
+const mapStateToProps = (state) => {
+	return {
+		user: state.user.currentUser,
+	};
+};
+
+export default connect(mapStateToProps)(DirectMessages);
