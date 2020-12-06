@@ -120,7 +120,12 @@ function MessageHeader({ handleSearchChange }) {
 				</Row>
 				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
 					<p>
-						<Image /> user name
+						<Image
+							src={chatRoom && chatRoom.createdBy.image}
+							roundedCircle
+							style={{ width: '30px', height: '30px' }}
+						/>{' '}
+						{chatRoom && chatRoom.createdBy.name}
 					</p>
 				</div>
 				<Row>
@@ -129,11 +134,11 @@ function MessageHeader({ handleSearchChange }) {
 							<Card>
 								<Card.Header style={{ padding: '0 1rem' }}>
 									<Accordion.Toggle as={Button} variant='link' eventKey='0'>
-										Click me!
+										Description
 									</Accordion.Toggle>
 								</Card.Header>
 								<Accordion.Collapse eventKey='0'>
-									<Card.Body>Hello! I'm the body</Card.Body>
+									<Card.Body>{chatRoom && chatRoom.description}</Card.Body>
 								</Accordion.Collapse>
 							</Card>
 						</Accordion>
