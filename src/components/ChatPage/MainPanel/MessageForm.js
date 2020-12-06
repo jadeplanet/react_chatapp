@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import firebase from '../../../firebase';
 import { useSelector } from 'react-redux';
 import mime from 'mime-types';
+import { MdSentimentSatisfied } from 'react-icons/md';
 
 const MessageForm = () => {
 	const chatRoom = useSelector((state) => state.chatRoom.currentChatRoom);
@@ -17,6 +18,9 @@ const MessageForm = () => {
 	const messagesRef = firebase.database().ref('messages');
 	const inputOpenImageRef = useRef();
 	const storageRef = firebase.storage().ref();
+	const isPrivateChatRoom = useSelector(
+		(state) => state.chatRoom.isPrivateChatRoom
+	);
 
 	const handleChange = (event) => {
 		setContent(event.target.value);
@@ -65,9 +69,17 @@ const MessageForm = () => {
 		inputOpenImageRef.current.click();
 	};
 
+	const getPath = () => {
+		if (isPrivateChatRoom) {
+			return `/message/private/${chatRoom.id}`;
+		} else {
+			return `/message/public`;
+		}
+	};
+
 	const handleUploadImage = async (event) => {
 		const file = event.target.files[0];
-		const filePath = `/message/public/${file.name}`;
+		const filePath = `${getPath()}/${file.name}`;
 		const metadata = { contentType: mime.lookup(file.name) };
 
 		setLoading(true);
