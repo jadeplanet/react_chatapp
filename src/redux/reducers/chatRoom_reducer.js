@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import {
 	SET_CURRENT_CHAT_ROOM,
 	SET_PRIVATE_CHAT_ROOM,

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { SET_USER, CLEAR_USER, SET_PHOTO_URL } from '../actions/types';
 
 const initialUserState = {
