@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col';
 import firebase from '../../../firebase';
 import { useSelector } from 'react-redux';
 import mime from 'mime-types';
-import { MdSentimentSatisfied } from 'react-icons/md';
 
 const MessageForm = () => {
 	const chatRoom = useSelector((state) => state.chatRoom.currentChatRoom);
